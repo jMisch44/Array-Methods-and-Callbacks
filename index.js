@@ -78,7 +78,7 @@ function getWinners(data, getFinalscb) {
     });
     return winners;
 }
-
+// else if es6 syntax (ternary operators)
 console.log('task 4', getWinners(fifaData, getFinals));
 
 
@@ -94,14 +94,14 @@ hint: the strings returned need to exactly match the string in step 4.
 
 // probably use map here
 
-function getWinnersByYear(data, getYears, getWinners) {
-    const years = getYears(data, getFinals).map(function(item){
-        return `In ${item},`;
-    });
-    const winner = getWinners(data, getFinals).map(function(item){
-        return ` ${item} won the world cup!`;
+function getWinnersByYear(data, getYearscb, getWinnerscb) {
+    const winners = getWinnerscb(data, getFinals);
+    // console.log('winners', winners);
+    const years = getYearscb(data, getFinals);
+    // console.log('years', years);
+    return winners.map(function(item, index){
+        return `In ${years[index]}, ${item} won the world cup!`;
     })
-    return years + winner;
 }
 
 console.log('task 5', getWinnersByYear(fifaData, getYears, getWinners));
@@ -117,11 +117,14 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
+function getAverageGoals(getFinalscb) {
+   const averageTeamGoals = getFinalscb.reduce(function(acc, item){
+    return acc + item["Home Team Goals"] + item["Away Team Goals"]
+   },0);
+   return (averageTeamGoals/getFinalscb.length).toFixed(2);
 }
 
-
+console.log(getAverageGoals(getFinals(fifaData)));
 
 
 /// 🥅 STRETCH 🥅 ///
